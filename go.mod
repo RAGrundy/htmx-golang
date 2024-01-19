@@ -1,4 +1,4 @@
-module github.com/ragrundy/htmx-go
+module github.com/ragrundy/htmx-golang
 
 go 1.21.6
 

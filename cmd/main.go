@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/ragrundy/htmx-go/pkg/pages"
+	"github.com/ragrundy/htmx-golang/pkg/pages"
 )
 
 type TemplateRenderer struct {
