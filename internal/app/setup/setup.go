@@ -23,7 +23,6 @@ func SetupStatic(e *echo.Echo) {
 
 func SetupGetRoutes(e *echo.Echo) {
 	e.GET("/*", pages.DynamicPageRouter)
-	//e.GET("/components/whoami", components.WhoAmI)
 }
 
 func SetupPostRoutes(e *echo.Echo) {

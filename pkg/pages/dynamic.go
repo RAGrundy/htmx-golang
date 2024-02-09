@@ -8,6 +8,7 @@ import (
 )
 
 type DynamicPage struct {
+	Name string
 }
 
 func DynamicPageRouter(c echo.Context) error {
@@ -15,9 +16,9 @@ func DynamicPageRouter(c echo.Context) error {
 
 	switch p {
 	case "/":
-		return c.Render(200, "index.html", DynamicPage{})
+		return c.Render(200, "index.html", DynamicPage{Name: "Index"})
 	default:
-		err := c.Render(200, fmt.Sprintf("%s.html", strings.TrimLeft(p, "/")), DynamicPage{})
+		err := c.Render(200, fmt.Sprintf("%s.html", strings.TrimLeft(p, "/")), DynamicPage{Name: strings.TrimLeft(p, "/")})
 		if err != nil {
 			return c.Render(404, "notfound.html", DynamicPage{})
 		}
