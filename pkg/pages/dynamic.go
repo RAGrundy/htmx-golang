@@ -2,7 +2,6 @@ package pages
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -11,13 +10,27 @@ import (
 type DynamicPage struct {
 }
 
-func Dynamic(c echo.Context) error {
-	p := c.Request().URL.Path
-	log.Printf("dynamic routing: %s", p)
+func DynamicPageRouter(c echo.Context) error {
+	p := removePages(c.Request().URL.Path)
+
 	switch p {
 	case "/":
 		return c.Render(200, "index.html", DynamicPage{})
 	default:
-		return c.Render(200, fmt.Sprintf("%s.html", strings.TrimLeft(p, "/")), DynamicPage{})
+		err := c.Render(200, fmt.Sprintf("%s.html", strings.TrimLeft(p, "/")), DynamicPage{})
+		if err != nil {
+			return c.Render(404, "notfound.html", DynamicPage{})
+		}
+		return err
 	}
+}
+
+func removePages(rp string) (p string) {
+	p = rp
+
+	p = strings.TrimPrefix(p, "/global")
+	p = strings.TrimPrefix(p, "/index")
+	p = strings.TrimPrefix(p, "/notfound")
+	p = strings.TrimPrefix(p, "/servererror")
+	return
 }

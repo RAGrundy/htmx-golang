@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>R.A.Grundy</title>
+		{{template "global/globalhead.html" . }}
+	</head>
+	<body>
+		{{template "components/header.html" . }}
+		<main>
+			<div hx-get="/components/whoami" hx-trigger="click">
+				{{template "components/hello.html" . }}
+			</div>
+		</main> 
+	</body>
+</html>
