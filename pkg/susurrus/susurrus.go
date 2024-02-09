@@ -47,8 +47,12 @@ func AddFilesInDirectoryToTemplateWithPrefix(e *echo.Echo, pts ...TemplateDirect
 					if pt.Prefix != "" {
 						sb.WriteString(fmt.Sprintf("%s/", pt.Prefix))
 					}
-					sb.WriteString(info.Name())
 
+					uPath := strings.ReplaceAll(path, "\\", "/")
+					uPath = strings.ReplaceAll(uPath, fmt.Sprintf("%s/", strings.TrimSuffix(info.Name(), filepath.Ext(info.Name()))), "")
+					sb.WriteString(strings.TrimPrefix(uPath, pt.Directory+"/"))
+
+					fmt.Println(sb.String())
 					tmpls.New(sb.String()).Parse(rfs)
 				}
 				return nil

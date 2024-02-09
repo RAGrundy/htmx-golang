@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Todo</title>
+		{{template "global/globalhead.html" . }}
+	</head>
+	<body>
+		{{template "components/header.html" . }}
+		<main>
+			<div>
+				<ul>
+					<li> 
+						<p> Need some way of grabbing list of all child templates so that we can pass that into global head and it automatically starts throwing in relevant js and css files </p>
+					</li>
+					<li> 
+						<p> Need some kind of page wrapping template we can pass page templates into dynamically. </p>
+						<p> Will need to grab info from the file itself for things like name etc due to the dynamic stuff - this could always be driven by external resource matching on path tbf, ie cms</p>
+						<p> How would this interact with any extra head values we need to use that aren't shared or accessed programmatically either - external resources again?</p>
+					</li>
+					<li> 
+						<p> Clean up AddFilesInDirectoryToTemplateWithPrefix in Susurrus. It's getting pretty horrid. </p>
+					</li>
+					<li> 
+						<p> Clean up Dynamic routing ignore list. It's getting pretty horrid. </p>
+					</li>
+				</ul>
+			</div>
+		</main> 
+	</body>
+</html>
