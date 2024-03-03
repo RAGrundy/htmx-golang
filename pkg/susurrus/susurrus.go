@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -25,9 +26,13 @@ type TemplateDirectory struct {
 	Prefix    string
 }
 
-func AddFilesInDirectoryToTemplateWithPrefix(e *echo.Echo, pts ...TemplateDirectory) {
-	tmpls := template.New("")
+type LoadedTemplate struct {
+	Name     string
+	Children []string
+}
 
+func AddFilesInDirectoryToTemplateWithPrefix(e *echo.Echo, pts ...TemplateDirectory) (ltmpls []LoadedTemplate) {
+	tmpls := template.New("")
 	for _, pt := range pts {
 		err := filepath.Walk(pt.Directory,
 			func(path string, info os.FileInfo, err error) error {
@@ -48,11 +53,22 @@ func AddFilesInDirectoryToTemplateWithPrefix(e *echo.Echo, pts ...TemplateDirect
 						sb.WriteString(fmt.Sprintf("%s/", pt.Prefix))
 					}
 
+					nameMinusExt := strings.TrimSuffix(info.Name(), filepath.Ext(info.Name()))
+					r := regexp.MustCompile(`\{{2,}template (.*?)\}{2,}`)
+					substrings := r.FindAllStringSubmatch(rfs, -1)
+					children := []string{}
+					for i, v := range substrings {
+						for j, vv := range v {
+							children = append(children, vv[j])
+						}
+					}
+
 					uPath := strings.ReplaceAll(path, "\\", "/")
-					uPath = strings.ReplaceAll(uPath, fmt.Sprintf("%s/", strings.TrimSuffix(info.Name(), filepath.Ext(info.Name()))), "")
+					uPath = strings.ReplaceAll(uPath, fmt.Sprintf("%s/", nameMinusExt), "")
 					sb.WriteString(strings.TrimPrefix(uPath, pt.Directory+"/"))
 
 					fmt.Println(sb.String())
+					ltmpls = append(ltmpls, LoadedTemplate{Name: nameMinusExt, Children: children})
 					tmpls.New(sb.String()).Parse(rfs)
 				}
 				return nil
@@ -65,6 +81,7 @@ func AddFilesInDirectoryToTemplateWithPrefix(e *echo.Echo, pts ...TemplateDirect
 	e.Renderer = &TemplateRenderer{
 		templates: tmpls,
 	}
+	return
 }
 
 type StaticDirectory struct {

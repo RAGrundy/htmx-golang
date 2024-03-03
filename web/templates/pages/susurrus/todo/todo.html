@@ -8,9 +8,16 @@
 		{{template "components/header.html" . }}
 		<main>
 			<div>
-				<ul>
+				<ol>
 					<li> 
 						<p> Need some way of grabbing list of all child templates so that we can pass that into global head and it automatically starts throwing in relevant js and css files </p>
+						<p> This might not necessarily be possible with the html/template current impl </p>
+						<p> May need to write some code to create the chain at execute or parse time. </p>
+						<p> Parse time would be better as this happens once. Currently looking through execute code to see if there's anything I can steal. </p>
+					</li>
+					<li> 
+						<p> Stop static files also going through dynamic routing sometimes. </p>
+						<p> Debug Susurrus.todo for more info. </p>
 					</li>
 					<li> 
 						<p> Need some kind of page wrapping template we can pass page templates into dynamically. </p>
@@ -23,7 +30,7 @@
 					<li> 
 						<p> Clean up Dynamic routing ignore list. It's getting pretty horrid. </p>
 					</li>
-				</ul>
+				</ol>
 			</div>
 		</main> 
 	</body>

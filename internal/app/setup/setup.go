@@ -1,6 +1,8 @@
 package setup
 
 import (
+	"fmt"
+
 	"github.com/labstack/echo/v4"
 
 	"github.com/ragrundy/htmx-golang/pkg/pages"
@@ -8,10 +10,12 @@ import (
 )
 
 func SetupTemplates(e *echo.Echo) {
-	susurrus.AddFilesInDirectoryToTemplateWithPrefix(e,
+	ltmpls := susurrus.AddFilesInDirectoryToTemplateWithPrefix(e,
 		susurrus.TemplateDirectory{Directory: "web/templates/components", Prefix: "components"},
 		susurrus.TemplateDirectory{Directory: "web/templates/global", Prefix: "global"},
 		susurrus.TemplateDirectory{Directory: "web/templates/pages"})
+
+	fmt.Println(ltmpls)
 }
 
 func SetupStatic(e *echo.Echo) {
